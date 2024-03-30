@@ -1,0 +1,50 @@
+﻿@model Mid7_Project_01.Models.Team
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3>Are you sure to delete?</h3>
+
+        <div class="form-group row mb-1">
+            @Html.LabelFor(x => x.TeamName, new { @class = "col-from-label col-2" })
+            <div class="col-4">
+                @Model.TeamName
+            </div>
+        </div>
+        <div class="form-group row mb-1">
+            @Html.LabelFor(x => x.Coach, new { @class = "col-from-label col-2" })
+            <div class="col-4">
+                @Model.Coach
+            </div>
+        </div>
+        <div class="form-group row mb-1">
+            @Html.LabelFor(x => x.Grad, new { @class = "col-from-label col-2" })
+            <div class="col-4">
+                @Model.Grad
+            </div>
+        </div>
+        <div class="form-group row mb-1">
+            @Html.LabelFor(x => x.Grad, new { @class = "col-from-label col-2" })
+            <div class="col-4">
+                @(Model.IsActive ? "Yes": "No")
+            </div>
+        </div>
+        <div class="form-group row mb-1">
+            <div class="col-6 offset-2">
+                @using (Html.BeginForm())
+                {
+                    @Html.HiddenFor(x => x.TeamId)
+                    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                }
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-12">
+        @Html.ActionLink("Back to list", "Index")
+    </div>
+</div>
+

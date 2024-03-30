@@ -1,0 +1,75 @@
+﻿@model Mid7_Project_01.ViewModels.TeamInputModel
+    <h3>Add team</h3>
+<input type="hidden" id="server-action" value="@ViewBag.Act" />
+<div class="form-group row mb-1">
+    @Html.LabelFor(x => x.TeamName, new { @class = "col-form-label col-form-label-sm col-2" })
+    <div class="col-6">
+        @Html.TextBoxFor(x => x.TeamName, new { @class = "form-control form-control-sm" })
+        @Html.ValidationMessageFor(x => x.TeamName, "", new { @class = "text-danger", style = "font-size:x-small" })
+    </div>
+</div>
+<div class="form-group row mb-1">
+    @Html.LabelFor(x => x.Grad, new { @class = "col-form-label col-form-label-sm col-2" })
+    <div class="col-6">
+        @Html.EnumDropDownListFor(x => x.Grad, new { @class = "form-select form-select-sm" })
+        @Html.ValidationMessageFor(x => x.Grad, "", new { @class = "text-danger", style = "font-size:x-small" })
+    </div>
+</div>
+<div class="form-group row mb-1">
+    @Html.LabelFor(x => x.Coach, new { @class = "col-form-label col-form-label-sm col-2" })
+    <div class="col-6">
+        @Html.TextBoxFor(x => x.Coach, new { @class = "form-control form-control-sm" })
+        @Html.ValidationMessageFor(x => x.Coach, "", new { @class = "text-danger", style = "font-size:x-small" })
+    </div>
+</div>
+
+<div class="form-group row mb-1">
+    @Html.LabelFor(x => x.Picture, new { @class = "col-form-label col-form-label-sm col-2" })
+    <div class="col-6">
+        @Html.TextBoxFor(x => x.Picture, new { @class = "form-control form-control-sm", type = "file" })
+        @Html.ValidationMessageFor(x => x.Picture, "", new { @class = "text-danger", style = "font-size:x-small" })
+    </div>
+</div>
+<div class="col-12">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>TeamMemberName</th>
+                <th>BirthDate</th>
+                <th>Phone</th>
+                <th>
+                    <button type="submit" class="btn btn-secondary btn-sm add" name="act" value="add" formnovalidate>Add</button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var i = 0; i < Model.TeamMembers.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.TextBoxFor(x => Model.TeamMembers[i].TeamMemberName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => Model.TeamMembers[i].TeamMemberName, "", new { @class = "text-danger" })
+
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(x => Model.TeamMembers[i].BirthDate, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => Model.TeamMembers[i].BirthDate, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(x => Model.TeamMembers[i].Phone, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => Model.TeamMembers[i].Phone, "", new { @class = "text-danger" })
+                    </td>
+                    <th>
+                        <button type="submit" class="btn btn-secondary btn-sm del" name="act" value="remove_@i" formnovalidate>Remove</button>
+                    </th>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+<div class="form-group row mb-1">
+    <div class="col-10 offset-2 text-end">
+        <button type="submit" class="btn btn-success insert" name="act" value="insert">Save</button>
+    </div>
+</div>

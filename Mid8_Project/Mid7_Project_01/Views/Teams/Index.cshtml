@@ -1,0 +1,108 @@
+﻿@model IEnumerable<Mid7_Project_01.Models.Team>
+@using X.PagedList
+@using X.PagedList.Mvc
+@using X.PagedList.Mvc.Common
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3 class="d-flex justify-content-center">Team List</h3>
+        <div class="d-flex justify-content-end mb-1">
+
+
+            <a href="@Url.Action("Create", "Teams")" class="btn btn-primary btn-sm">Create New</a>
+        </div>
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th></th>
+                    <th>Team Name</th>
+                    <th>Coach</th>
+                    <th>Grade</th>
+                    <th>IsActive?</th>
+                    <th>...</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var t in Model)
+                {
+                    <tr style="vertical-align:middle" id="tr_@t.TeamId">
+                        <td><img src="~/Pictures/@t.Picture" class="img-thumbnail rounded-circle" style="width:50px" /></td>
+                        <td>@t.TeamName</td>
+                        <td>@t.Grad</td>
+                        <td>@t.Coach</td>
+                        <td>@(t.IsActive ? "Yes": "No")</td>
+                        <td>
+                            <a href="@Url.Action("Edit", "Teams", new {id=t.TeamId})" class="btn btn-success btn-sm">Edit</a>
+                            <button type="button" href="@Url.Action("Delete", "Teams", new {id=t.TeamId})" class="btn btn-danger btn-sm del" data-pk="@t.TeamId">Delete</button>
+                        </td>
+                    </tr>
+                    <tr id="trq_@t.TeamId">
+                        <td></td>
+                        <td colspan="5">
+                            <h4>TeamMember</h4>
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Member Name</th>
+                                        <th>BirthDate</th>
+                                        <th>Phone</th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var tm in t.TeamMembers)
+                                    {
+                                        <tr>
+                                            <td>@tm.TeamMemberName</td>
+                                            <td>@tm.BirthDate.ToString("yyyy-MM-dd")</td>
+                                            <td>@tm.Phone</td>
+
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+            @Html.PagedListPager((IPagedList)Model, pg => Url.Action("Index", new { pg = pg }),
+           new PagedListRenderOptions
+           {
+
+               PageClasses = new string[] { "page-link" },
+               LiElementClasses = new string[] { "page-item" }
+           })
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/jquery-3.7.0.js"></script>
+    <script>
+        $(".del").click(function () {
+            var id = $(this).data("pk");
+            if (confirm("Are you sure to delete?\nApllicant with all qualication associated will be delete")) {
+                console.log(id);
+                $.ajax({
+                    type: "post",
+                    url: `/Teams/Delete/${id}`,
+                    dataType: "json",
+                    success: r => {
+                        if (r.success == true) {
+                            $(`#tr_${id}`).remove();
+                            $(`#trq_${id}`).remove();
+                        }
+                    }
+                })
+            }
+        });
+    </script>
+}
+
